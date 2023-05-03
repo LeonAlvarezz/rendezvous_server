@@ -29,29 +29,20 @@ public class ProjectService {
         return projectList;
     }
 
-    public Project getProjectById(int id) {
-        Optional<Project> projectOptional = projectRepo.findById(id);
-        if (projectOptional.isPresent()) {
-            return projectOptional.get();
-        } else {
-            throw new RuntimeException("Project not found with id: " + id);
-        }
+
+    public Project updateProject(int id, Project project) {
+        Project updatedProject= projectRepo.findById(id).get();
+        updatedProject.setProject_name(project.getProject_name());
+        updatedProject.setDescription(project.getDescription());
+        updatedProject.setProject_deadline(project.getProject_deadline());
+        updatedProject.setTag(project.getTag());
+        return projectRepo.save(updatedProject);
     }
 
-    public Project updateProject(int id, Project updatedProject)
-    {
-        Optional<Project> projectOptional = projectRepo.findById(id);
-        if(projectOptional.isPresent())
-        {
-            Project project = projectOptional.get();
-            project.setProject_name(updatedProject.getProject_name());
-            project.setProject_deadline(updatedProject.getProject_deadline());
-            project.setDescription(updatedProject.getDescription());
-            project.setTag(updatedProject.getTag());
-            return projectRepo.save(project);
-        } else
-        {
-            throw new RuntimeException("Project not found");
-        }
+    public Project getProjectById(int id) {
+        return projectRepo.findById(id).get();
+    }
+    public void deleteProject(int id) {
+        projectRepo.deleteById(id);
     }
 }

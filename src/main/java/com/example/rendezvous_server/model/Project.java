@@ -77,4 +77,15 @@ public class Project {
     public void setTag(Tag tag) {
         this.tag = tag;
     }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "project_id=" + project_id +
+                ", project_name='" + project_name + '\'' +
+                ", project_deadline=" + project_deadline +
+                ", description='" + description + '\'' +
+                ", tag=" + tag.getTag_name() +
+                '}';
+    }
 }

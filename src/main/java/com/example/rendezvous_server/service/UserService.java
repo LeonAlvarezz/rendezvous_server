@@ -27,13 +27,32 @@ public class UserService {
         return userList;
     }
 
-    public User getUserById(int id) {
-        Optional<User> userOptional = userRepo.findById(id);
-        if (userOptional.isPresent()) {
-            return userOptional.get();
-        } else {
-            throw new RuntimeException("User not found with id: " + id);
-        }
+    public User updateUser(int id, User user) {
+        User updatedUser = userRepo.findById(id).get();
+        updatedUser.setUser_name(user.getUser_name());
+        updatedUser.setUser_password(user.getUser_password());
+        updatedUser.setMode(user.getMode());
+        return userRepo.save(updatedUser);
     }
 
+    public User getUserById(int id) {
+        return userRepo.findById(id).get();
+    }
+    public void deleteUser(int id) {
+        userRepo.deleteById(id);
+    }
+
+    public List<String> checkUserEmail(String email)
+    {
+        return userRepo.checkUserEmail(email);
+    }
+
+    public String checkUserPassword(String password)
+    {
+        return userRepo.checkUserPassword(password);
+    }
+    public User getUserInfo(String email)
+    {
+        return userRepo.getUserInfoByEmail(email);
+    }
 }
