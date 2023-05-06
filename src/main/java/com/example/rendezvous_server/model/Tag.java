@@ -1,8 +1,10 @@
 package com.example.rendezvous_server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Tag {
@@ -11,9 +13,10 @@ public class Tag {
     private int tag_id;
     private String tag_name;
     @OneToMany(mappedBy = "tag")
-    private List<Project> projects;
+    @JsonIgnoreProperties("tag")
+    private Set<Project> projects;
 
-    public Tag(int tag_id, String tag_name, List<Project> projects) {
+    public Tag(int tag_id, String tag_name, Set<Project> projects) {
         this.tag_id = tag_id;
         this.tag_name = tag_name;
         this.projects = projects;
@@ -39,11 +42,11 @@ public class Tag {
         this.tag_name = tag_name;
     }
 
-    public List<Project> getProjects() {
+    public Set<Project> getProjects() {
         return projects;
     }
 
-    public void setProjects(List<Project> projects) {
+    public void setProjects(Set<Project> projects) {
         this.projects = projects;
     }
 
@@ -52,7 +55,6 @@ public class Tag {
         return "Tag{" +
                 "tag_id=" + tag_id +
                 ", tag_name='" + tag_name + '\'' +
-                ", projects=" + projects +
                 '}';
     }
 }

@@ -1,12 +1,11 @@
 package com.example.rendezvous_server.model;
 
 import com.example.rendezvous_server.model.brideEntity.ProjectTeam;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Project {
@@ -15,16 +14,19 @@ public class Project {
     private int project_id;
     private String project_name;
     @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MMMM d, yyyy hh:mm:ss")
     private Date project_deadline;
     private String description;
     @ManyToOne
     @JoinColumn(name = "tag_id")
     private Tag tag;
+
     @OneToMany(mappedBy = "task_id")
     private List<Task> tasks;
 
     @OneToMany(mappedBy = "project")
-    private Set<ProjectTeam> projectTeams = new HashSet<>();
+    @JsonIgnoreProperties("project")
+    private List<ProjectTeam> projectTeams = new ArrayList<>();
 
     public Project(int project_id, String project_name, Date project_deadline, String description, Tag tag) {
         this.project_id = project_id;
@@ -36,6 +38,14 @@ public class Project {
 
     public Project() {
 
+    }
+
+    public List<ProjectTeam> getProjectTeams() {
+        return projectTeams;
+    }
+
+    public void setProjectTeams(List<ProjectTeam> projectTeams) {
+        this.projectTeams = projectTeams;
     }
 
     public int getProject_id() {
@@ -85,7 +95,6 @@ public class Project {
                 ", project_name='" + project_name + '\'' +
                 ", project_deadline=" + project_deadline +
                 ", description='" + description + '\'' +
-                ", tag=" + tag.getTag_name() +
                 '}';
     }
 }

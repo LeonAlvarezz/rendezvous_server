@@ -7,6 +7,7 @@ import com.example.rendezvous_server.repository.ProjectRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class ProjectService {
     {
         return projectRepo.save(project);
     }
+
 
     public List<Project> getAllProject()
     {
@@ -45,4 +47,18 @@ public class ProjectService {
     public void deleteProject(int id) {
         projectRepo.deleteById(id);
     }
+//    public List<Project> getAllProjectById(@PathVariable int id)
+//    {
+//        List<Project> projectList = new ArrayList<>();
+////        Streamable.of(projectRepo.getProjectByUserId(id)).forEach(projectList::add);
+//        projectList = projectRepo.getProjectByUserId(id);
+//        System.out.println(projectList);
+//        return projectList;
+//    }
+
+    public List<Project> getProjectsByUserId(int user_id) {
+        return projectRepo.findByAllProjectById(user_id);
+    }
+
+
 }

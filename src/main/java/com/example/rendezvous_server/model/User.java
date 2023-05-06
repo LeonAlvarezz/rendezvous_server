@@ -2,8 +2,10 @@ package com.example.rendezvous_server.model;
 
 import com.example.rendezvous_server.model.brideEntity.ProjectTeam;
 import com.example.rendezvous_server.model.brideEntity.TaskTeam;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,6 +13,7 @@ import java.util.Set;
 @Entity
 public class User {
     @Id
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int user_id;
     private String email;
@@ -18,10 +21,11 @@ public class User {
     private String user_password;
 
     @OneToMany(mappedBy = "user")
-    private Set<ProjectTeam> projectTeams = new HashSet<>();
+    @JsonIgnoreProperties("user")
+    private Set<ProjectTeam> projectTeams;
 
     @OneToMany(mappedBy = "userTask")
-    private Set<TaskTeam> taskTeams = new HashSet<>();
+    private List<TaskTeam> taskTeams = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Mode mode;
